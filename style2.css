@@ -1,0 +1,58 @@
+ <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            background-image: url('https://i.postimg.cc/0jSJMY5B/3032506dc811a81f05e027329aeda39e.jpg');
+            background-size: cover;
+            background-position: center 60%;
+            background-attachment: fixed;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Кнопка "обратно" */
+        .back-button {
+            display: inline-block;
+            padding: 12px 25px;
+            margin: 20px;
+            background: rgba(150, 42, 42, 0.5);
+            border: 2px solid rgb(79, 14, 14);
+            border-radius: 8px;
+            text-decoration: none;
+            color: rgb(129, 0, 0);
+            font-size: 2rem;
+            box-shadow: 2px 2px 6px rgba(238, 0, 0, 0.5);
+            position: relative;
+            z-index: 10; /* чтобы кнопка была выше блока */
+        }
+
+        @media (max-width: 600px) {
+            .back-button {
+                font-size: 1.5rem;
+                padding: 10px 20px;
+            }
+        }
+
+        /* Прокручиваемый блок биографии */
+        .bio-block {
+            position: absolute;
+            top: 80px;          /* сдвиг вниз, чтобы кнопка сверху не перекрывала */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;          /* почти весь экран */
+            height: 80%;         /* почти вся высота */
+            padding: 20px;
+            background: rgba(0,0,0,0.7); /* полупрозрачный фон */
+            color: white;
+            border-radius: 10px;
+            overflow-y: auto;
+            box-shadow: 2px 2px 15px rgba(0,0,0,0.5);
+        }
+
+        .bio-block::-webkit-scrollbar {
+            width: 8px;
+        }
+        .bio-block::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.3);
+            border-radius: 4px;
+        }
+    </style>
