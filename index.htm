@@ -42,8 +42,46 @@
   <div class="overlay"></div>
 
   <div class="bg-overlay"></div>
+<main class="hero">
 
-  <script>
+  <h1 class="hero-title">Топ Вайфу 2026 ✨</h1>
+
+  <p class="hero-subtitle">
+    Выбери свою любимую вайфу или открой случайную
+  </p>
+
+  <div class="hero-buttons">
+
+    <button class="hero-btn" onclick="toggleMenu()">
+      Открыть список
+    </button>
+
+    <button class="hero-btn random-btn" onclick="randomWaifu()">
+      Случайная вайфу 🎲
+    </button>
+
+  </div>
+
+</main>
+
+  
+<script>
+  function randomWaifu() {
+
+  const pages = [
+    "k.htm",
+    "r.htm",
+    "Alice.htm",
+    "Marine.htm",
+    "Kana.htm"
+  ];
+
+  const random = Math.floor(Math.random() * pages.length);
+
+  window.location.href = pages[random];
+
+}
+
     const menuToggle = document.querySelector('.menu-toggle');
     const sidebar = document.querySelector('.sidebar');
     const overlay = document.querySelector('.overlay');
@@ -69,3 +107,4 @@
 
 </body>
 </html>
+
