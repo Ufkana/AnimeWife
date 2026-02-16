@@ -1,74 +1,226 @@
-body {
-    margin: 0;
-    height: 100vh;
-    background-image: url('https://i.postimg.cc/hvts8yhR/29a7235d9dc8c469b521d2d280ab46dd.jpg');
-    background-size: cover;
-    background-position: center 60%;
-    background-attachment: fixed;
-    font-family: Arial, sans-serif;
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow-x: hidden;
+  font-family: 'Roboto', sans-serif;
 }
 
-/* Контейнер кнопок */
-.buttons {
-    display: flex;
-    flex-direction: column; 
-    align-items: flex-start; 
-    margin: 50px;
+#bg-video {
+  position: fixed;
+  top: 0; left: 0;
+  min-width: 100%;
+  min-height: 100%;
+  object-fit: cover;
+  z-index: -2;
 }
 
-/* Общие стили для всех кнопок */
-.back-button {
-    display: inline-block;
-    padding: 12px 25px;
-    margin: 10px 0;
-    border-radius: 8px;
-    text-decoration: none;
-    font-size: 2rem;
-    box-shadow: 2px 2px 6px rgba(0,0,0,0.5);
-    transition: 0.3s;
+.bg-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 5, 35, 0.4); /* лёгкое затемнение видео */
+  z-index: -1;
+  pointer-events: none;
 }
 
-/* Индивидуальные цвета */
-.back-button2 {
-    background: rgba(111, 0, 0, 0.5);
-    border: 2px solid rgb(116, 0, 0);
-    color: rgb(255, 150, 150);
+/* ─── Гамбургер с анимацией в крестик ─── */
+.menu-toggle {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1001;
+  width: 50px;
+  height: 44px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  padding: 0;
+  transition: all 0.4s ease;
 }
 
-.back-button3 {
-    background: rgba(0, 187, 255, 0.4);
-    border: 2px solid rgb(0, 143, 191);
-    color: rgb(0, 202, 253);
+.bar {
+  width: 100%;
+  height: 5px;
+  background: #a78bfa;
+  border-radius: 4px;
+  box-shadow: 0 0 10px #a78bfa66;
+  transition: all 0.4s cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  position: relative;
 }
 
-.back-button5 {
-    background: rgba(255, 255, 255, 0.4);
-    border: 2px solid white;
-    color: white;
+/* Эффект блесток при наведении и клике */
+.menu-toggle:hover .bar,
+.menu-toggle.open .bar {
+  box-shadow: 0 0 18px #c084fc88, 0 0 30px #a78bfa44;
 }
 
-.back-button4 {
-    background: rgba(205, 133, 8, 0.4);
-    border: 2px solid rgb(215, 135, 5);
-    color: rgb(248, 103, 0);
+.menu-toggle.open .bar {
+  background: linear-gradient(90deg, #ff6ec7, #a78bfa, #7dd3fc);
+  box-shadow: 0 0 20px #ff6ec799;
 }
 
-.back-button1 {
-    background: rgba(195, 17, 118, 0.4);
-    border: 2px solid rgb(255, 0, 119);
-    color: rgb(255, 0, 179);
+/* Анимация крестика */
+.menu-toggle.open .bar-top {
+  transform: translateY(13px) rotate(135deg);
+  transform-origin: center;
 }
 
-/* Эффект при наведении */
-.back-button:hover {
-    transform: scale(1.05);
-    opacity: 0.9;
+.menu-toggle.open .bar-mid {
+  opacity: 0;
+  transform: scaleX(0);
 }
 
-/* Адаптация под телефон */
-@media (max-width: 600px) {
-    .back-button {
-        font-size: 1.5rem;
-        padding: 10px 20px;
-    }
+.menu-toggle.open .bar-bot {
+  transform: translateY(-13px) rotate(-135deg);
+  transform-origin: center;
+}
+
+/* Лёгкие искры (sparkle) при открытии */
+.menu-toggle.open::before,
+.menu-toggle.open::after {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: #fff;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+  box-shadow: 0 0 12px #fff, 0 0 24px #ff6ec7;
+  animation: sparkle 1.2s ease-out forwards;
+  pointer-events: none;
+}
+
+.menu-toggle.open::after {
+  animation-delay: 0.15s;
+}
+
+@keyframes sparkle {
+  0%   { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+  40%  { transform: translate(-50%, -50%) scale(1.8); opacity: 0.9; }
+  100% { transform: translate(-50%, -50%) scale(2.5); opacity: 0; }
+}
+
+/* ─── Боковое меню ─── */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -320px;
+  width: 300px;
+  height: 100%;
+  background: rgba(15, 10, 40, 0.94);
+  backdrop-filter: blur(14px);
+  border-right: 1px solid rgba(167, 139, 250, 0.35);
+  box-shadow: 12px 0 50px rgba(0,0,0,0.7);
+  transition: left 0.5s cubic-bezier(0.32, 0.72, 0, 1);
+  z-index: 999;
+  color: #f0f0ff;
+}
+
+.sidebar.open {
+  left: 0;
+}
+
+/* Затемнение */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.5s ease;
+  z-index: 998;
+}
+
+.overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Заголовок меню */
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.6rem 1.9rem;
+  border-bottom: 1px solid rgba(167, 139, 250, 0.3);
+  
+}
+.sidebar-header h2 {
+  font-family: 'Orbitron', monospace;
+  font-size: 2rem;
+  background: linear-gradient(90deg, #ff6ec7, #a78bfa, #7dd3fc);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin: 0;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 2.4rem;
+  color: #a78bfa;
+  cursor: pointer;
+  transition: all 0.35s;
+}
+*/
+
+.close-btn:hover {
+  color: #ff6ec7;
+  transform: rotate(180deg) scale(1.15);
+}
+
+/* Список ссылок */
+.menu-list {
+  list-style: none;
+  padding: 2rem 0;
+  margin: 0;
+}
+
+.menu-link {
+  display: block;
+  padding: 1.1rem 2.2rem;
+  font-size: 1.4rem;
+  color: #e0e0ff;
+  text-decoration: none;
+  transition: all 0.35s ease;
+  border-left: 5px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.menu-link:hover {
+  background: rgba(167, 139, 250, 0.18);
+  color: white;
+  border-left-color: #a78bfa;
+  padding-left: 2.6rem;
+  text-shadow: 0 0 10px rgba(167, 139, 250, 0.6);
+}
+
+/* Цвета персонажей + градиент при наведении */
+.menu-link.kaguya { color: #ff99cc; }
+.menu-link.kaguya:hover { background: linear-gradient(to right, #ff3366, #ff99cc22); border-left-color: #ff3366; }
+
+.menu-link.rem    { color: #88eeff; }
+.menu-link.rem:hover    { background: linear-gradient(to right, #00ccff, #88eeff22); border-left-color: #00ccff; }
+
+.menu-link.alice  { color: #f0f0ff; }
+.menu-link.alice:hover  { background: linear-gradient(to right, #c0c0ff, #f0f0ff22); border-left-color: #c0c0ff; }
+
+.menu-link.marin  { color: #ffdd99; }
+.menu-link.marin:hover  { background: linear-gradient(to right, #ffaa00, #ffdd9922); border-left-color: #ffaa00; }
+
+.menu-link.kana   { color: #ff99dd; }
+.menu-link.kana:hover   { background: linear-gradient(to right, #ff00aa, #ff99dd22); border-left-color: #ff00aa; }
+
+/* Сдвиг кнопки вправо при открытии */
+.menu-toggle.open {
+  transform: translateX(200px);
 }
