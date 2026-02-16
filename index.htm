@@ -1,21 +1,75 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <title>Топ Вайфу Биография</title>
-    <link rel="stylesheet" href="style.css">
-   <link rel="icon" href="img/avatar.jpg" type="image/jpeg">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Топ Вайфу 2026</title>
+  <link rel="icon" href="img/avatar.jpg" type="image/jpeg">
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <video autoplay muted loop playsinline id="bg-video">
+    <source src="WF.mp4" type="video/mp4">
+  </video>
 </head>
 <body>
-    <div class="buttons"> 
-        <a href="k.htm" class="back-button back-button2">Кагуя Синомия</a>
-        <a href="r.htm" class="back-button back-button3">Рем</a>
-        <a href="Alice.htm" class="back-button back-button5">Алиса Михаиловна</a>
-        <a href="Marine.htm" class="back-button back-button4">Марин Китагава</a>
-        <a href="Kana.htm" class="back-button back-button1">Арима Кана</a>
-    </div>
+
+  <!-- Гамбургер-кнопка -->
+  <button class="menu-toggle" aria-label="Открыть меню">
+    <span class="bar bar-top"></span>
+    <span class="bar bar-mid"></span>
+    <span class="bar bar-bot"></span>
+  </button>
+
+  <!-- Боковое меню -->
+  <nav class="sidebar">
+     <div class="sidebar-header">
+  <h2>Вайфу</h2>
+</div>
+      
+
+    <ul class="menu-list">
+      <li><a href="k.htm"    class="menu-link kaguya">Кагуя Синомия</a></li>
+      <li><a href="r.htm"    class="menu-link rem">Рем</a></li>
+      <li><a href="Alice.htm" class="menu-link alice">Алиса Михаиловна</a></li>
+      <li><a href="Marine.htm" class="menu-link marin">Марин Китагава</a></li>
+      <li><a href="Kana.htm"  class="menu-link kana">Арима Кана</a></li>
+    </ul>
+  </nav>
+
+  <!-- Затемнение при открытом меню -->
+  <div class="overlay"></div>
+
+  <div class="bg-overlay"></div>
+
+  <script>
+    const menuToggle = document.querySelector('.menu-toggle');
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.querySelector('.overlay');
+    const closeBtn = document.querySelector('.close-btn');
+
+    function toggleMenu() {
+      sidebar.classList.toggle('open');
+      overlay.classList.toggle('open');
+      menuToggle.classList.toggle('open');
+    }
+
+    menuToggle.addEventListener('click', toggleMenu);
+    closeBtn.addEventListener('click', toggleMenu);
+    overlay.addEventListener('click', toggleMenu);
+
+    // Закрытие по Esc
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && sidebar.classList.contains('open')) {
+        toggleMenu();
+      }
+    });
+  </script>
+
 </body>
 </html>
+
 
 
 
